@@ -1,0 +1,35 @@
+# Example Terraform Variables File
+# Copy this file to terraform.tfvars and fill in your values
+
+# OCI Configuration
+tenancy_ocid       = "ocid1.tenancy.oc1..aaaaaaaa..."
+user_ocid          = "ocid1.user.oc1..aaaaaaaa..."
+fingerprint        = "xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx"
+private_key_path   = "~/.oci/oci_api_key.pem"
+region             = "us-ashburn-1"
+compartment_id     = "ocid1.compartment.oc1..aaaaaaaa..."
+
+# SSH Configuration
+ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC... user@hostname"
+
+# Database Configuration
+db_admin_password = "YourSecurePassword123!"
+
+# Optional: Customize Project Settings
+project_name  = "mlops-project"
+environment   = "dev"
+
+# Optional: Customize Network
+vcn_cidr           = "10.0.0.0/16"
+public_subnet_cidr = "10.0.1.0/24"
+private_subnet_cidr = "10.0.2.0/24"
+
+# Optional: Customize Instance Sizes
+instance_ocpus      = 2
+instance_memory_gb  = 16
+airflow_ocpus       = 2
+airflow_memory_gb   = 16
+
+# Optional: Customize Bucket Names
+mlflow_bucket_name  = "mlflow-artifacts"
+airflow_bucket_name = "airflow-dags"
