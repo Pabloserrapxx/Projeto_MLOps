@@ -5,8 +5,7 @@ set -e
 
 echo "Starting FastAPI + Streamlit installation..."
 
-# Update system
-sudo yum update -y
+# Install required packages (skipping yum update to avoid OOM on Micro instances)
 sudo yum install -y python3 python3-pip git
 
 # Clone application code (adjust this to your actual repo if needed)
