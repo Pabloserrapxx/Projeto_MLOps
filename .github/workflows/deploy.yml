@@ -7,12 +7,14 @@ on:
       - develop
     paths:
       - 'terraform/**'
+      - 'scripts/**'
       - '.github/workflows/deploy.yml'
   pull_request:
     branches:
       - main
     paths:
       - 'terraform/**'
+      - 'scripts/**'
   workflow_dispatch:
     inputs:
       action:
