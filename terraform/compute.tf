@@ -13,12 +13,9 @@ resource "oci_core_instance" "mlflow_instance" {
   availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
   compartment_id      = var.compartment_id
   display_name        = "${var.project_name}-mlflow-${var.environment}"
-  shape               = var.mlflow_instance_shape
+  shape               = "VM.Standard.E2.1.Micro"
 
-  shape_config {
-    ocpus         = var.instance_ocpus
-    memory_in_gbs = var.instance_memory_gb
-  }
+  # shape_config not needed for VM.Standard.E2.1.Micro (fixed 1 OCPU, 1GB RAM)
 
   create_vnic_details {
     subnet_id        = oci_core_subnet.public_subnet.id
@@ -63,12 +60,9 @@ resource "oci_core_instance" "airflow_instance" {
   availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
   compartment_id      = var.compartment_id
   display_name        = "${var.project_name}-airflow-${var.environment}"
-  shape               = var.airflow_instance_shape
+  shape               = "VM.Standard.E2.1.Micro"
 
-  shape_config {
-    ocpus         = var.airflow_ocpus
-    memory_in_gbs = var.airflow_memory_gb
-  }
+  # shape_config not needed for VM.Standard.E2.1.Micro (fixed 1 OCPU, 1GB RAM)
 
   create_vnic_details {
     subnet_id        = oci_core_subnet.public_subnet.id
@@ -114,12 +108,9 @@ resource "oci_core_instance" "api_instance" {
   availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
   compartment_id      = var.compartment_id
   display_name        = "${var.project_name}-api-${var.environment}"
-  shape               = var.api_instance_shape
+  shape               = "VM.Standard.E2.1.Micro"
 
-  shape_config {
-    ocpus         = var.instance_ocpus
-    memory_in_gbs = var.instance_memory_gb
-  }
+  # shape_config not needed for VM.Standard.E2.1.Micro (fixed 1 OCPU, 1GB RAM)
 
   create_vnic_details {
     subnet_id        = oci_core_subnet.public_subnet.id
