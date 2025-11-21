@@ -35,8 +35,8 @@ resource "oci_core_instance" "mlflow_instance" {
   metadata = {
     ssh_authorized_keys = var.ssh_public_key
     user_data = base64encode(templatefile("${path.module}/../scripts/mlflow_init.sh", {
-      db_host              = oci_mysql_mysql_db_system.mlops_db.endpoints[0].hostname
-      db_port              = oci_mysql_mysql_db_system.mlops_db.endpoints[0].port
+      db_host              = oci_core_instance.airflow_instance.private_ip
+      db_port              = "3306"
       db_user              = "mlflow"
       db_password          = var.db_admin_password
       db_name              = "mlflow"
@@ -54,7 +54,6 @@ resource "oci_core_instance" "mlflow_instance" {
   }
 
   depends_on = [
-    oci_mysql_mysql_db_system.mlops_db,
     oci_objectstorage_bucket.mlflow_bucket
   ]
 }
@@ -86,8 +85,8 @@ resource "oci_core_instance" "airflow_instance" {
   metadata = {
     ssh_authorized_keys = var.ssh_public_key
     user_data = base64encode(templatefile("${path.module}/../scripts/airflow_init.sh", {
-      db_host          = oci_mysql_mysql_db_system.mlops_db.endpoints[0].hostname
-      db_port          = oci_mysql_mysql_db_system.mlops_db.endpoints[0].port
+      db_host          = "localhost"
+      db_port          = "3306"
       db_user          = "airflow"
       db_password      = var.db_admin_password
       db_name          = "airflow"
@@ -106,7 +105,6 @@ resource "oci_core_instance" "airflow_instance" {
   }
 
   depends_on = [
-    oci_mysql_mysql_db_system.mlops_db,
     oci_objectstorage_bucket.airflow_bucket,
     oci_core_instance.mlflow_instance
   ]

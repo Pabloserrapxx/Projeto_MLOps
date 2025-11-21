@@ -17,6 +17,39 @@ echo "Installing Python 3.9 and dependencies..."
 sudo yum install -y python39 python39-pip python39-devel gcc gcc-c++ make git wget \
     libffi-devel openssl-devel sqlite-devel bzip2-devel
 
+# Install MySQL Server (Local DB for Free Tier)
+echo "Installing MySQL Server..."
+sudo yum install -y mysql-server
+
+# Configure MySQL to listen on all interfaces
+echo "Configuring MySQL bind-address..."
+# Check if config file exists, if not create it or append to main config
+if [ -f /etc/my.cnf.d/mysql-server.cnf ]; then
+    sudo sed -i '/\[mysqld\]/a bind-address=0.0.0.0' /etc/my.cnf.d/mysql-server.cnf
+else
+    echo "[mysqld]" | sudo tee -a /etc/my.cnf
+    echo "bind-address=0.0.0.0" | sudo tee -a /etc/my.cnf
+fi
+
+# Start MySQL Service
+echo "Starting MySQL Service..."
+sudo systemctl enable --now mysqld
+
+# Secure MySQL Installation & Create Admin User
+echo "Configuring MySQL..."
+# Get temporary root password (if any) or set one
+sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${db_password}';"
+sudo mysql -u root -p"${db_password}" -e "DELETE FROM mysql.user WHERE User='';"
+sudo mysql -u root -p"${db_password}" -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');"
+sudo mysql -u root -p"${db_password}" -e "DROP DATABASE IF EXISTS test;"
+sudo mysql -u root -p"${db_password}" -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';"
+sudo mysql -u root -p"${db_password}" -e "FLUSH PRIVILEGES;"
+
+# Create Admin User for remote access (internal VCN only)
+sudo mysql -u root -p"${db_password}" -e "CREATE USER 'admin'@'%' IDENTIFIED BY '${db_password}';"
+sudo mysql -u root -p"${db_password}" -e "GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' WITH GRANT OPTION;"
+sudo mysql -u root -p"${db_password}" -e "FLUSH PRIVILEGES;"
+
 # Install MySQL client
 echo "Installing MySQL client..."
 sudo yum install -y mysql

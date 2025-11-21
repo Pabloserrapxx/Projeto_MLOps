@@ -3,11 +3,16 @@ data "oci_objectstorage_namespace" "ns" {
   compartment_id = var.compartment_id
 }
 
+# Random ID for unique bucket names
+resource "random_id" "bucket_suffix" {
+  byte_length = 4
+}
+
 # MLflow Artifacts Bucket
 resource "oci_objectstorage_bucket" "mlflow_bucket" {
   compartment_id = var.compartment_id
   namespace      = data.oci_objectstorage_namespace.ns.namespace
-  name           = "${var.project_name}-${var.mlflow_bucket_name}-${var.environment}"
+  name           = "${var.project_name}-${var.mlflow_bucket_name}-${var.environment}-${random_id.bucket_suffix.hex}"
   access_type    = "NoPublicAccess"
 
   versioning = "Enabled"
@@ -23,7 +28,7 @@ resource "oci_objectstorage_bucket" "mlflow_bucket" {
 resource "oci_objectstorage_bucket" "airflow_bucket" {
   compartment_id = var.compartment_id
   namespace      = data.oci_objectstorage_namespace.ns.namespace
-  name           = "${var.project_name}-${var.airflow_bucket_name}-${var.environment}"
+  name           = "${var.project_name}-${var.airflow_bucket_name}-${var.environment}-${random_id.bucket_suffix.hex}"
   access_type    = "NoPublicAccess"
 
   versioning = "Enabled"

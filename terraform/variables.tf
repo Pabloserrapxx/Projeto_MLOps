@@ -66,43 +66,43 @@ variable "ssh_public_key" {
 variable "mlflow_instance_shape" {
   description = "Shape for MLflow instance"
   type        = string
-  default     = "VM.Standard.E4.Flex"
+  default     = "VM.Standard.A1.Flex"
 }
 
 variable "airflow_instance_shape" {
   description = "Shape for Airflow instance"
   type        = string
-  default     = "VM.Standard.E4.Flex"
+  default     = "VM.Standard.A1.Flex"
 }
 
 variable "api_instance_shape" {
   description = "Shape for API/Streamlit instance"
   type        = string
-  default     = "VM.Standard.E4.Flex"
+  default     = "VM.Standard.A1.Flex"
 }
 
 variable "instance_ocpus" {
   description = "Number of OCPUs for flex instances"
   type        = number
-  default     = 2
+  default     = 1
 }
 
 variable "instance_memory_gb" {
   description = "Memory in GB for flex instances"
   type        = number
-  default     = 16
+  default     = 6
 }
 
 variable "airflow_ocpus" {
   description = "Number of OCPUs for Airflow instance"
   type        = number
-  default     = 2
+  default     = 1
 }
 
 variable "airflow_memory_gb" {
   description = "Memory in GB for Airflow instance"
   type        = number
-  default     = 16
+  default     = 6
 }
 
 # Database Variables
