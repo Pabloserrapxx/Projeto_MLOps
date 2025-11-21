@@ -5,8 +5,7 @@ set -e
 
 echo "Starting MLflow + Airflow installation..."
 
-# Update system
-sudo yum update -y
+# Install required packages (skipping yum update to avoid OOM on Micro instances)
 sudo yum install -y python3 python3-pip mysql git
 
 # Install Docker
