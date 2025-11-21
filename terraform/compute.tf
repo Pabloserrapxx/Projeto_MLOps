@@ -33,7 +33,7 @@ resource "oci_core_instance" "mlflow_instance" {
   }
 
   metadata = {
-    ssh_authorized_keys = base64encode(trimspace(var.ssh_public_key))
+    ssh_authorized_keys = trimspace(var.ssh_public_key)
     user_data = base64encode(templatefile("${path.module}/../scripts/mlflow_init.sh", {
       db_host              = "airflow.public.mlopsvcn.oraclevcn.com"
       db_port              = "3306"
@@ -83,7 +83,7 @@ resource "oci_core_instance" "airflow_instance" {
   }
 
   metadata = {
-    ssh_authorized_keys = base64encode(trimspace(var.ssh_public_key))
+    ssh_authorized_keys = trimspace(var.ssh_public_key)
     user_data = base64encode(templatefile("${path.module}/../scripts/airflow_init.sh", {
       db_host          = "localhost"
       db_port          = "3306"
@@ -134,7 +134,7 @@ resource "oci_core_instance" "api_instance" {
   }
 
   metadata = {
-    ssh_authorized_keys = base64encode(trimspace(var.ssh_public_key))
+    ssh_authorized_keys = trimspace(var.ssh_public_key)
     user_data = base64encode(templatefile("${path.module}/../scripts/api_init.sh", {
       mlflow_url      = "http://mlflow.public.mlopsvcn.oraclevcn.com:${var.mlflow_port}"
       fastapi_port    = var.fastapi_port
