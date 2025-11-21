@@ -48,12 +48,12 @@ output "api_instance_private_ip" {
 # Database Outputs
 output "mysql_endpoint" {
   description = "MySQL Database endpoint"
-  value       = oci_mysql_mysql_db_system.mlops_db.endpoints[0].hostname
+  value       = oci_core_instance.airflow_instance.private_ip
 }
 
 output "mysql_port" {
   description = "MySQL Database port"
-  value       = oci_mysql_mysql_db_system.mlops_db.endpoints[0].port
+  value       = 3306
 }
 
 # Storage Outputs
@@ -119,8 +119,8 @@ output "connection_info" {
       streamlit_url = "http://${oci_core_instance.api_instance.public_ip}:${var.streamlit_port}"
     }
     database = {
-      endpoint = oci_mysql_mysql_db_system.mlops_db.endpoints[0].hostname
-      port     = oci_mysql_mysql_db_system.mlops_db.endpoints[0].port
+      endpoint = oci_core_instance.airflow_instance.private_ip
+      port     = 3306
     }
   }
 }
