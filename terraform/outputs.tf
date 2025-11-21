@@ -99,10 +99,10 @@ output "connection_info" {
       airflow_url = "http://${oci_core_instance.mlops_backend.public_ip}:${var.airflow_port}"
     }
     frontend = {
-      public_ip      = oci_core_instance.mlops_frontend.public_ip
-      private_ip     = oci_core_instance.mlops_frontend.private_ip
-      fastapi_url    = "http://${oci_core_instance.mlops_frontend.public_ip}:${var.fastapi_port}"
-      streamlit_url  = "http://${oci_core_instance.mlops_frontend.public_ip}:${var.streamlit_port}"
+      public_ip     = oci_core_instance.mlops_frontend.public_ip
+      private_ip    = oci_core_instance.mlops_frontend.private_ip
+      fastapi_url   = "http://${oci_core_instance.mlops_frontend.public_ip}:${var.fastapi_port}"
+      streamlit_url = "http://${oci_core_instance.mlops_frontend.public_ip}:${var.streamlit_port}"
     }
     database = {
       endpoint = oci_core_instance.mlops_backend.private_ip

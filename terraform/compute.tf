@@ -30,15 +30,15 @@ resource "oci_core_instance" "mlops_backend" {
   metadata = {
     ssh_authorized_keys = trimspace(var.ssh_public_key)
     user_data = base64encode(templatefile("${path.module}/../scripts/mlflow_airflow_init.sh", {
-      db_host              = "localhost"
-      db_port              = "3306"
-      db_admin_password    = var.db_admin_password
-      mlflow_bucket        = oci_objectstorage_bucket.mlflow_bucket.name
-      airflow_bucket       = oci_objectstorage_bucket.airflow_bucket.name
-      bucket_namespace     = data.oci_objectstorage_namespace.ns.namespace
-      mlflow_port          = var.mlflow_port
-      airflow_port         = var.airflow_port
-      region               = var.region
+      db_host           = "localhost"
+      db_port           = "3306"
+      db_admin_password = var.db_admin_password
+      mlflow_bucket     = oci_objectstorage_bucket.mlflow_bucket.name
+      airflow_bucket    = oci_objectstorage_bucket.airflow_bucket.name
+      bucket_namespace  = data.oci_objectstorage_namespace.ns.namespace
+      mlflow_port       = var.mlflow_port
+      airflow_port      = var.airflow_port
+      region            = var.region
     }))
   }
 
@@ -76,10 +76,10 @@ resource "oci_core_instance" "mlops_frontend" {
   metadata = {
     ssh_authorized_keys = trimspace(var.ssh_public_key)
     user_data = base64encode(templatefile("${path.module}/../scripts/api_streamlit_init.sh", {
-      mlflow_url      = "http://mlopsbackend.public.mlopsvcn.oraclevcn.com:${var.mlflow_port}"
-      fastapi_port    = var.fastapi_port
-      streamlit_port  = var.streamlit_port
-      region          = var.region
+      mlflow_url     = "http://mlopsbackend.public.mlopsvcn.oraclevcn.com:${var.mlflow_port}"
+      fastapi_port   = var.fastapi_port
+      streamlit_port = var.streamlit_port
+      region         = var.region
     }))
   }
 
