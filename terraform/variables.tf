@@ -20,6 +20,13 @@ variable "private_key_path" {
   default     = "~/.oci/oci_api_key.pem"
 }
 
+variable "private_key_content" {
+  description = "Content of the OCI Private Key (alternative to file path)"
+  type        = string
+  default     = null
+  sensitive   = true
+}
+
 variable "region" {
   description = "OCI Region"
   type        = string
