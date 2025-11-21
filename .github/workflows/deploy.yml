@@ -95,14 +95,9 @@ jobs:
       
       - name: Configure OCI Credentials
         run: |
-          echo "Saving key to ${{ github.workspace }}/oci_api_key.pem"
-          echo "${{ secrets.OCI_PRIVATE_KEY }}" > ${{ github.workspace }}/oci_api_key.pem
-          chmod 600 ${{ github.workspace }}/oci_api_key.pem
-          
-          echo "Debug: Checking key file..."
-          ls -l ${{ github.workspace }}/oci_api_key.pem
-          echo "Debug: Key file line count (should be > 1):"
-          wc -l ${{ github.workspace }}/oci_api_key.pem
+          mkdir -p "$HOME/.oci"
+          printf '%s\n' "${{ secrets.OCI_PRIVATE_KEY }}" > "$HOME/.oci/oci_api_key.pem"
+          chmod 600 "$HOME/.oci/oci_api_key.pem"
       
       - name: Terraform Init
         run: terraform init
@@ -111,7 +106,7 @@ jobs:
           TF_VAR_tenancy_ocid: ${{ secrets.OCI_TENANCY_OCID }}
           TF_VAR_user_ocid: ${{ secrets.OCI_USER_OCID }}
           TF_VAR_fingerprint: ${{ secrets.OCI_FINGERPRINT }}
-          TF_VAR_private_key_path: ${{ github.workspace }}/oci_api_key.pem
+          TF_VAR_private_key_path: /home/runner/.oci/oci_api_key.pem
           TF_VAR_region: ${{ secrets.OCI_REGION }}
           TF_VAR_compartment_id: ${{ secrets.OCI_COMPARTMENT_ID }}
       
@@ -123,7 +118,7 @@ jobs:
           TF_VAR_tenancy_ocid: ${{ secrets.OCI_TENANCY_OCID }}
           TF_VAR_user_ocid: ${{ secrets.OCI_USER_OCID }}
           TF_VAR_fingerprint: ${{ secrets.OCI_FINGERPRINT }}
-          TF_VAR_private_key_path: ${{ github.workspace }}/oci_api_key.pem
+          TF_VAR_private_key_path: $HOME/.oci/oci_api_key.pem
           TF_VAR_region: ${{ secrets.OCI_REGION }}
           TF_VAR_compartment_id: ${{ secrets.OCI_COMPARTMENT_ID }}
           TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
@@ -183,8 +178,9 @@ jobs:
       
       - name: Configure OCI Credentials
         run: |
-          echo "${{ secrets.OCI_PRIVATE_KEY }}" > ${{ github.workspace }}/oci_api_key.pem
-          chmod 600 ${{ github.workspace }}/oci_api_key.pem
+          mkdir -p "$HOME/.oci"
+          printf '%s\n' "${{ secrets.OCI_PRIVATE_KEY }}" > "$HOME/.oci/oci_api_key.pem"
+          chmod 600 "$HOME/.oci/oci_api_key.pem"
       
       - name: Terraform Init
         run: terraform init
@@ -193,7 +189,7 @@ jobs:
           TF_VAR_tenancy_ocid: ${{ secrets.OCI_TENANCY_OCID }}
           TF_VAR_user_ocid: ${{ secrets.OCI_USER_OCID }}
           TF_VAR_fingerprint: ${{ secrets.OCI_FINGERPRINT }}
-          TF_VAR_private_key_path: ${{ github.workspace }}/oci_api_key.pem
+          TF_VAR_private_key_path: /home/runner/.oci/oci_api_key.pem
           TF_VAR_region: ${{ secrets.OCI_REGION }}
           TF_VAR_compartment_id: ${{ secrets.OCI_COMPARTMENT_ID }}
       
@@ -205,7 +201,7 @@ jobs:
           TF_VAR_tenancy_ocid: ${{ secrets.OCI_TENANCY_OCID }}
           TF_VAR_user_ocid: ${{ secrets.OCI_USER_OCID }}
           TF_VAR_fingerprint: ${{ secrets.OCI_FINGERPRINT }}
-          TF_VAR_private_key_path: ${{ github.workspace }}/oci_api_key.pem
+          TF_VAR_private_key_path: $HOME/.oci/oci_api_key.pem
           TF_VAR_region: ${{ secrets.OCI_REGION }}
           TF_VAR_compartment_id: ${{ secrets.OCI_COMPARTMENT_ID }}
           TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
@@ -253,8 +249,9 @@ jobs:
       
       - name: Configure OCI Credentials
         run: |
-          echo "${{ secrets.OCI_PRIVATE_KEY }}" > ${{ github.workspace }}/oci_api_key.pem
-          chmod 600 ${{ github.workspace }}/oci_api_key.pem
+          mkdir -p "$HOME/.oci"
+          printf '%s\n' "${{ secrets.OCI_PRIVATE_KEY }}" > "$HOME/.oci/oci_api_key.pem"
+          chmod 600 "$HOME/.oci/oci_api_key.pem"
       
       - name: Terraform Init
         run: terraform init
@@ -263,7 +260,7 @@ jobs:
           TF_VAR_tenancy_ocid: ${{ secrets.OCI_TENANCY_OCID }}
           TF_VAR_user_ocid: ${{ secrets.OCI_USER_OCID }}
           TF_VAR_fingerprint: ${{ secrets.OCI_FINGERPRINT }}
-          TF_VAR_private_key_path: ${{ github.workspace }}/oci_api_key.pem
+          TF_VAR_private_key_path: /home/runner/.oci/oci_api_key.pem
           TF_VAR_region: ${{ secrets.OCI_REGION }}
           TF_VAR_compartment_id: ${{ secrets.OCI_COMPARTMENT_ID }}
       
@@ -274,7 +271,7 @@ jobs:
           TF_VAR_tenancy_ocid: ${{ secrets.OCI_TENANCY_OCID }}
           TF_VAR_user_ocid: ${{ secrets.OCI_USER_OCID }}
           TF_VAR_fingerprint: ${{ secrets.OCI_FINGERPRINT }}
-          TF_VAR_private_key_path: ${{ github.workspace }}/oci_api_key.pem
+          TF_VAR_private_key_path: /home/runner/.oci/oci_api_key.pem
           TF_VAR_region: ${{ secrets.OCI_REGION }}
           TF_VAR_compartment_id: ${{ secrets.OCI_COMPARTMENT_ID }}
           TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
