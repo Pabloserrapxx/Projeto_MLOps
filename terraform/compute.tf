@@ -35,7 +35,7 @@ resource "oci_core_instance" "mlflow_instance" {
   metadata = {
     ssh_authorized_keys = var.ssh_public_key
     user_data = base64encode(templatefile("${path.module}/../scripts/mlflow_init.sh", {
-      db_host              = oci_core_instance.airflow_instance.private_ip
+      db_host              = "airflow.public.mlopsvcn.oraclevcn.com"
       db_port              = "3306"
       db_user              = "mlflow"
       db_password          = var.db_admin_password
@@ -94,7 +94,7 @@ resource "oci_core_instance" "airflow_instance" {
       bucket_namespace = data.oci_objectstorage_namespace.ns.namespace
       airflow_port     = var.airflow_port
       region           = var.region
-      mlflow_url       = "http://${oci_core_instance.mlflow_instance.private_ip}:${var.mlflow_port}"
+      mlflow_url       = "http://mlflow.public.mlopsvcn.oraclevcn.com:${var.mlflow_port}"
     }))
   }
 
@@ -105,8 +105,7 @@ resource "oci_core_instance" "airflow_instance" {
   }
 
   depends_on = [
-    oci_objectstorage_bucket.airflow_bucket,
-    oci_core_instance.mlflow_instance
+    oci_objectstorage_bucket.airflow_bucket
   ]
 }
 
@@ -137,7 +136,7 @@ resource "oci_core_instance" "api_instance" {
   metadata = {
     ssh_authorized_keys = var.ssh_public_key
     user_data = base64encode(templatefile("${path.module}/../scripts/api_init.sh", {
-      mlflow_url      = "http://${oci_core_instance.mlflow_instance.private_ip}:${var.mlflow_port}"
+      mlflow_url      = "http://mlflow.public.mlopsvcn.oraclevcn.com:${var.mlflow_port}"
       fastapi_port    = var.fastapi_port
       streamlit_port  = var.streamlit_port
       region          = var.region
@@ -150,7 +149,5 @@ resource "oci_core_instance" "api_instance" {
     "Service"     = "API"
   }
 
-  depends_on = [
-    oci_core_instance.mlflow_instance
-  ]
+
 }
